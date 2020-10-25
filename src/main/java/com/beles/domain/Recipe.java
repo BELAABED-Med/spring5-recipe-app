@@ -1,7 +1,6 @@
 package com.beles.domain;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -9,6 +8,9 @@ import java.util.Set;
 
 @Entity
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Recipe {
 
     @Id
