@@ -1,9 +1,11 @@
 package com.beles.services;
 
+import com.beles.converters.RecipeCommandToRecipe;
 import com.beles.domain.Recipe;
 import com.beles.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -16,16 +18,19 @@ import static org.mockito.Mockito.*;
 
 class RecipeServiceImplTest {
 
-    RecipeService recipeService;
+
 
     @Mock
     RecipeRepository recipeRepository;
 
+    @Mock
+    RecipeCommandToRecipe recipeCommandConverter;
+
+    @InjectMocks
+    RecipeService recipeService;
+
     @BeforeEach
     void setUp() throws Exception {
-        MockitoAnnotations.initMocks(this);
-
-        recipeService=new RecipeServiceImpl(recipeRepository);
 
     }
 

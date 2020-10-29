@@ -9,7 +9,6 @@ import java.util.Set;
 @Entity
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
 public class Recipe {
 
@@ -22,6 +21,7 @@ public class Recipe {
     private Integer cookTime;
     private Integer serving;
     private String source;
+    private String url;
 
     @Lob
     private String directions;
@@ -43,9 +43,15 @@ public class Recipe {
     )
     private Set<Category> categories= new HashSet<>();
 
+
+    public Recipe() {
+    }
+
     public void setNotes(Notes notes) {
-        notes.setRecipe(this);
-        this.notes = notes;
+        if(notes!=null){
+            notes.setRecipe(this);
+            this.notes = notes;
+        }
     }
 
     public Recipe addIngredient(Ingredient ingredient){

@@ -1,10 +1,14 @@
 package com.beles.services;
 
+import com.beles.commands.RecipeCommand;
+import com.beles.converters.RecipeCommandToRecipe;
+import com.beles.converters.RecipeToRecipeCommand;
 import com.beles.domain.Recipe;
 import com.beles.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -12,9 +16,14 @@ import java.util.Set;
 @Service
 @Slf4j
 public class RecipeServiceImpl implements RecipeService{
+
+    private final RecipeCommandToRecipe recipeCommandConverter;
+    private final RecipeToRecipeCommand recipeConverter;
     private final RecipeRepository recipeRepository;
 
-    public RecipeServiceImpl(RecipeRepository recipeRepository) {
+    public RecipeServiceImpl(RecipeCommandToRecipe recipeCommandConverter, RecipeToRecipeCommand recipeConverter, RecipeRepository recipeRepository) {
+        this.recipeCommandConverter = recipeCommandConverter;
+        this.recipeConverter = recipeConverter;
         this.recipeRepository = recipeRepository;
     }
 
@@ -28,13 +37,22 @@ public class RecipeServiceImpl implements RecipeService{
 
     @Override
     public Recipe findById(Long id) {
-        Optional<Recipe> recipeOptional=recipeRepository.findById(id);
-        if(!recipeOptional.isPresent()){
-            throw new RuntimeException("Recipe Not Found");
-        }
-        return recipeOptional.get();
-        //other method
-//        recipeRepository.findById(id).orElse(null);
+//        Optional<Recipe> recipeOptional=recipeRepository.findById(id);
+//        if(!recipeOptional.isPresent()){
+//            throw new RuntimeException("Recipe Not Found");
+//        }
+//        return recipeOptional.get();
+//        other method
+          return recipeRepository.findById(id).orElse(null);
 
+    }
+
+    @Override
+    @Transactional
+    public RecipeCommand saveRecipeCommand(RecipeCommand command) {
+        Recipe detachedRecipe=recipeCommandConverter.convert(command);
+        log.debug("SAVED DETACHED RECIPE : "+detachedRecipe.getId());
+        Recipe savedRecipe=recipeRepository.save(detachedRecipe);
+        return recipeConverter.convert(savedRecipe);
     }
 }
