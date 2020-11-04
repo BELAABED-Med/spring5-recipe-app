@@ -1,6 +1,6 @@
 package com.beles.converters;
 
-import com.beles.commands.UnitOfMesureCommand;
+import com.beles.commands.UnitOfMeasureCommand;
 import com.beles.domain.UnitOfMeasure;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -38,7 +38,7 @@ class UnitOfMeasureToUniteOfMeasureCommandTest {
         unitOfMeasure.setUom(UOM);
 
         //When
-        UnitOfMesureCommand command=converter.convert(unitOfMeasure);
+        UnitOfMeasureCommand command=converter.convert(unitOfMeasure);
 
         assertNotNull(command);
         assertNotNull(unitOfMeasure);

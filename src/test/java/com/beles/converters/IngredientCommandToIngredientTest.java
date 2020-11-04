@@ -1,7 +1,7 @@
 package com.beles.converters;
 
 import com.beles.commands.IngredientCommand;
-import com.beles.commands.UnitOfMesureCommand;
+import com.beles.commands.UnitOfMeasureCommand;
 import com.beles.domain.Ingredient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,7 +39,7 @@ class IngredientCommandToIngredientTest {
         ingredientCommand.setId(ID);
         ingredientCommand.setAmount(AMOUNT);
         ingredientCommand.setDescription(DESCRIPTION);
-        UnitOfMesureCommand uomc=new UnitOfMesureCommand();
+        UnitOfMeasureCommand uomc=new UnitOfMeasureCommand();
         uomc.setId(ID_UOM);
         ingredientCommand.setUom(uomc);
 

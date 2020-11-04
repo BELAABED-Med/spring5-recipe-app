@@ -1,7 +1,6 @@
 package com.beles.converters;
 
 import com.beles.commands.IngredientCommand;
-import com.beles.commands.UnitOfMesureCommand;
 import com.beles.domain.Ingredient;
 import com.beles.domain.UnitOfMeasure;
 import org.junit.jupiter.api.BeforeEach;
