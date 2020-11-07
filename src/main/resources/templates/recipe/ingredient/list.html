@@ -24,7 +24,12 @@
         <div class="offset-md-3 col-md-6">
             <div class="card">
                 <div class="card-header bg-primary">
-                    <h3>ingredients !!</h3>
+                    <div class="d-flex align-items-center">
+                        <span class="mr-auto p-3">Ingredients</span>
+                        <div class="btn-group" role="group">
+                            <a class="btn border-danger"  th:href="@{'/recipe/'+${recipe.getId()}+'/ingredient/new'}">New</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive" th:if="${not #lists.isEmpty(recipe.ingredients)}">

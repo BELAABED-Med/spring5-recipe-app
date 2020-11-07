@@ -98,4 +98,29 @@ public class IngredientserviceIml implements IngredientService {
             return ingredientConverter.convert(savedIngredientOptional.get());
         }
     }
+
+    @Override
+    public void deleteById(Long recipeId, Long ingredientId) {
+//        IngredientCommand detachedIngredient=findByRecipeIdAndIngredientId(recipeId.longValue(), ingredientId.longValue());
+        Optional<Recipe> optionalRecipe=recipeRepository.findById(recipeId.longValue());
+        if (!optionalRecipe.isPresent()) {
+            log.error("Recipe Not Found");
+        }
+        Recipe recipe=optionalRecipe.get();
+        Optional<Ingredient> optionalIngredient=recipe
+                .getIngredients()
+                .stream()
+                .filter(ingredient -> ingredient.getId().equals(ingredientId))
+                .findFirst();
+        if (!optionalIngredient.isPresent()) {
+            log.error("Ingredient Not Found");
+        }else{
+            log.info("Ingredient Is Found");
+            Ingredient ingredientToDelete=optionalIngredient.get();
+            ingredientToDelete.setRecipe(null);
+            recipe.getIngredients().remove(optionalIngredient.get());
+            recipeRepository.save(recipe);
+        }
+
+    }
 }
