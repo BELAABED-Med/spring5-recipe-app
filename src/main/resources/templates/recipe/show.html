@@ -15,6 +15,20 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"  crossorigin="anonymous"
             th:src="@{/webjars/bootstrap/4.5.3/js/bootstrap.bundle.js}"
     ></script>
+
+    <style>
+        p{
+            display: inline;
+        }
+        label{
+            font-weight: bold;
+        }
+        img{
+            border: yellowgreen 2px solid;
+            border-radius: 3px;
+        }
+    </style>
+
 </head>
 <body>
     <div class="container mt-5 mb-5">
@@ -28,43 +42,47 @@
         <div class="card border-primary">
             <div class="card-header bg-primary" th:text="${recipe.description}">Description</div>
             <div class="card-body ">
-                <div class="row">
-                    <div class="col-md-3">Categories</div>
-                    <div class="col-md-8">
+                <div class="row align-items-center" >
+                    <label class="col-md-2">Categories</label>
+                    <div class="col-md-4">
                         <ul th:each="category : ${recipe.getCategories()}">
                             <li th:text="${category.description}">category</li>
                         </ul>
                     </div>
+                    <div class="col-md-6">
+                        <img src="../../static/images/logo.jpg" width="480" height="360"
+                             th:src="@{/images/logo.jpg}"/>
+                    </div>
                 </div>
-
-                <div class="d-flex bd-highlight">
-                    <div class="p-2 flex-fill bd-highlight">
-                        <span>PrepTime</span>
+                <hr>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>PrepTime : </label>
                         <p th:text="${recipe.prepTime}">prepTime</p>
                     </div>
-                    <div class="p-2 flex-fill bd-highlight">
-                        <span>Difficulty</span>
+                    <div class="col-md-6">
+                        <label>Difficulty : </label>
                         <p th:text="${recipe.difficulty}">difficulty</p>
                     </div>
                 </div>
-                <div class="d-flex bd-highlight">
-                    <div class="p-2 flex-fill bd-highlight">
-                        <span>CookTime</span>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>CookTime : </label>
                         <p th:text="${recipe.cookTime}">Cooktime</p>
                     </div>
-                    <div class="p-2 flex-fill bd-highlight">
-                        <span>Serving</span>
+                    <div class="col-md-6">
+                        <label>Serving : </label>
                         <p th:text="${recipe.serving}">serving</p>
                     </div>
                 </div>
-                <div class="d-flex bd-highlight">
-                    <div class="p-2 flex-fill bd-highlight">
-                        <span>Source</span>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label>Source : </label>
                         <p th:text="${recipe.source}">Source</p>
                     </div>
-                    <div class="p-2 flex-fill bd-highlight">
-                        <span>URL</span>
-                        <p th:text="'www.exemple.com'"></p>
+                    <div class="col-md-6">
+                        <label>URL : </label>
+                        <p th:text="'www.exemple.com'">Url</p>
                     </div>
                 </div>
             </div>
