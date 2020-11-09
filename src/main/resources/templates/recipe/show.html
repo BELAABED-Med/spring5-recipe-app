@@ -40,7 +40,14 @@
         <h1 class="text-center" th:text="${recipe.description}">bla bla</h1>
 
         <div class="card border-primary">
-            <div class="card-header bg-primary" th:text="${recipe.description}">Description</div>
+            <div class="card-header bg-primary">
+                <div class="d-flex align-items-center">
+                    <span class="mr-auto p-3" th:text="${recipe.description}">bla bla</span>
+                    <div class="btn-group" role="group">
+                        <a class="btn border-secondary"  th:href="@{'/recipe/'+${recipe.id}+'/image'}">Choose Image</a>
+                    </div>
+                </div>
+            </div>
             <div class="card-body ">
                 <div class="row align-items-center" >
                     <label class="col-md-2">Categories</label>
@@ -51,7 +58,7 @@
                     </div>
                     <div class="col-md-6">
                         <img src="../../static/images/logo.jpg" width="480" height="360"
-                             th:src="@{/images/logo.jpg}"/>
+                             th:src="@{'/recipe/' + ${recipe.id} + '/recipeimage'}"/>
                     </div>
                 </div>
                 <hr>
