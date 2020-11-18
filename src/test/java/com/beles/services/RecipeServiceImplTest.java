@@ -3,7 +3,9 @@ package com.beles.services;
 import com.beles.converters.RecipeCommandToRecipe;
 import com.beles.converters.RecipeToRecipeCommand;
 import com.beles.domain.Recipe;
+import com.beles.exceptions.NotFoundException;
 import com.beles.repositories.RecipeRepository;
+import org.hibernate.jdbc.Expectation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -68,6 +70,19 @@ class RecipeServiceImplTest {
         verify(recipeRepository).findById(anyLong());
         verify(recipeRepository,never()).findAll();
 
+
+    }
+
+    @Test
+    void getRecipeByIdNotFound() {
+        Optional<Recipe> recipeOptional=Optional.empty();
+        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        assertThrows(NotFoundException.class,()->{
+            Recipe recipeReturned=recipeService.findById(1L);
+        });
+
+        //Should Boom
 
     }
 

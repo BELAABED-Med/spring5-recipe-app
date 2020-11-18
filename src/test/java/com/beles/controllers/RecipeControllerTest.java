@@ -2,6 +2,7 @@ package com.beles.controllers;
 
 import com.beles.commands.RecipeCommand;
 import com.beles.domain.Recipe;
+import com.beles.exceptions.NotFoundException;
 import com.beles.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,6 +50,22 @@ class RecipeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/show"))
                 .andExpect(model().attributeExists("recipe"));
+    }
+
+    @Test
+    void getRecipeNotFound() throws Exception {
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        mockMvc.perform(get("/recipe/4/show"))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("404Error"));
+    }
+    @Test
+    void getRecipeNumberFormat() throws Exception {
+
+        mockMvc.perform(get("/recipe/frefef/show"))
+                .andExpect(status().isBadRequest())
+                .andExpect(view().name("400Error"));
     }
 
     @Test
