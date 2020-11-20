@@ -10,7 +10,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.autoconfigure.validation.ValidatorAdapter;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -22,8 +27,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import javax.validation.Validator;
+import javax.xml.bind.helpers.DefaultValidationEventHandler;
 import java.net.URLEncoder;
-
 @ExtendWith(MockitoExtension.class)
 class RecipeControllerTest {
 
@@ -37,7 +43,11 @@ class RecipeControllerTest {
 
     @BeforeEach
     void setUp() {
-        mockMvc=MockMvcBuilders.standaloneSetup(controller).build();
+        ValidatorAdapter mockValidator = mock(ValidatorAdapter.class);
+        mockMvc=MockMvcBuilders.standaloneSetup(controller)
+                .setControllerAdvice(new ControllerExceptionHandler())
+                .setValidator(mockValidator)
+                .build();
     }
 
     @Test
@@ -61,7 +71,7 @@ class RecipeControllerTest {
                 .andExpect(view().name("404Error"));
     }
     @Test
-    void getRecipeNumberFormat() throws Exception {
+    void getRecipeNumberFormatException() throws Exception {
 
         mockMvc.perform(get("/recipe/frefef/show"))
                 .andExpect(status().isBadRequest())
@@ -76,6 +86,7 @@ class RecipeControllerTest {
                 .andExpect(model().attributeExists("recipe"));
     }
 
+    //Validation  Video 10-Validation????
     @Test
     void postRecipeForm() throws Exception{
         RecipeCommand recipeCommand=new RecipeCommand();
@@ -86,11 +97,28 @@ class RecipeControllerTest {
         mockMvc.perform(post("/recipe")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("id","")
-                .param("description","some string")
+                .param("description","")
                 )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(view().name("redirect:/recipe/2/show"));
 
+    }
+
+    @Test
+    public void testPostNewRecipeFormValidationFail() throws Exception {
+        RecipeCommand command = new RecipeCommand();
+        command.setId(2L);
+
+        when(recipeService.saveRecipeCommand(any())).thenReturn(command);
+
+        mockMvc.perform(post("/recipe")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("id", "")
+
+        )
+                .andExpect(status().isOk())
+                .andExpect(model().attributeExists("recipe"))
+                .andExpect(view().name("recipe/recipeform"));
     }
 
     @Test
