@@ -19,6 +19,12 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
         <!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
         <dependency>
             <groupId>org.hibernate.validator</groupId>
@@ -121,6 +127,8 @@
 <!--                </executions>-->
 <!--            </plugin>-->
         </plugins>
+        <finalName>recipe-app</finalName>
+        
     </build>
 
 </project>
